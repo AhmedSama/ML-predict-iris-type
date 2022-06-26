@@ -14,8 +14,8 @@ function App() {
     {
       return
     }
-    // const
-    const response = await fetch("https://pure-earth-79701.herokuapp.com/",{
+    const url = "http://localhost:5000/"
+    const response = await fetch(url,{
       method : "POST",
       headers: {
         'Content-Type': 'application/json'
