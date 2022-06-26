@@ -3,6 +3,8 @@ import { useState } from "react";
 function App() {
   const [features,setFeatures] = useState({slength : "",swidth : "",plength : "",pwidth:""})
   const [answer,setAnswer] = useState(null)
+  const [loading, setLoading] = useState(false)
+
   const handleChange = (e) => {
     setFeatures(prev=>{
       return {...prev,[e.target.name] : e.target.value}
@@ -14,6 +16,8 @@ function App() {
     {
       return
     }
+    setLoading(true)
+    setAnswer(null)
     const url = "http://localhost:5000/"
     const response = await fetch(url,{
       method : "POST",
@@ -23,9 +27,8 @@ function App() {
       body : JSON.stringify(features)
     })
     const result = await response.json()
-
+    setLoading(false)
     setAnswer(result?.result)
-
   }
   const styleTheAnswer = (answer) => {
     switch(answer){
@@ -62,6 +65,12 @@ function App() {
           <input min="0.1" max ="2.5" placeholder="min(0.1) max(2.5)" onChange={handleChange} name="pwidth" type="number" />
         </div>
         <button onClick={handleSubmit} className="btn">Predict</button>
+        {
+          loading &&
+          <div className="loading">
+            <div className="loader"></div>
+          </div>
+        }
         {
           answer &&
           styleTheAnswer(answer)
