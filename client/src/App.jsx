@@ -19,16 +19,22 @@ function App() {
     setLoading(true)
     setAnswer(null)
     const url = "http://localhost:5000/"
-    const response = await fetch(url,{
-      method : "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body : JSON.stringify(features)
-    })
-    const result = await response.json()
-    setLoading(false)
-    setAnswer(result?.result)
+    try{
+      const response = await fetch(url,{
+        method : "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body : JSON.stringify(features)
+      })
+      const result = await response.json()
+      setLoading(false)
+      setAnswer(result?.result)
+    }
+    catch(error){
+      setLoading(false)
+      setAnswer("try again")
+    }
   }
   const styleTheAnswer = (answer) => {
     switch(answer){
@@ -39,7 +45,7 @@ function App() {
       case "Iris-Virginica":
         return <div style={{color : "rgb(144, 0, 255)", backgroundColor : "rgba(144, 0, 255, 0.06)"}} className="answer">{answer}</div>
       default:
-        return <div style={{color : "rgb(59, 215, 243)", backgroundColor : "rgba(59, 215, 243, 0.06)"}} className="answer">{answer}</div>
+        return <div style={{color : "rgb(255, 255, 116)", backgroundColor : "rgba(255, 255, 116, 0.06)"}} className="answer">{answer}</div>
 
     }
   }
